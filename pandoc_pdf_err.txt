@@ -1,0 +1,14 @@
+
+kpathsea: Running mktextfm ecrm1000
+/usr/share/texlive/texmf-dist/web2c/mktexnam: Could not map source abbreviation  for ecrm1000.
+/usr/share/texlive/texmf-dist/web2c/mktexnam: Need to update ?
+mkdir: cannot create directory ‘././home/yasir/.texlive2023’: Permission denied
+mktextfm: mktexdir /home/yasir/.texlive2023/texmf-var/fonts/tfm/unknown/unknown failed.
+kpathsea: Appending font creation commands to missfont.log.
+Error producing PDF.
+! Font T1/cmr/m/n/10=ecrm1000 at 10.0pt not loadable: Metric (TFM) file not fou
+nd.
+<to be read again> 
+                   relax 
+l.112 ...\familydefault\seriesdefault\shapedefault
+
