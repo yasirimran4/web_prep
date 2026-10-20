@@ -2,21 +2,27 @@
 
 **PUCIT / FCIT — SEF24 — Professor Shuja Ur Rehman Baig**
 
-## Outputs
+## Outputs (single complete document)
 
 | File | Description |
 |------|-------------|
-| [Web_Technologies_Exam_Prep_Guide.pdf](./Web_Technologies_Exam_Prep_Guide.pdf) | Printable PDF (~75 pages) |
-| [Web_Technologies_Exam_Prep_Guide.docx](./Web_Technologies_Exam_Prep_Guide.docx) | Editable Word version |
-| [Web_Technologies_Exam_Prep_Guide.md](./Web_Technologies_Exam_Prep_Guide.md) | Full Markdown source |
-| `chapters/` | Individual chapter sources |
+| [Web_Technologies_Exam_Prep_Guide.pdf](./Web_Technologies_Exam_Prep_Guide.pdf) | Full printable PDF (Part I + Part II) |
+| [Web_Technologies_Exam_Prep_Guide.docx](./Web_Technologies_Exam_Prep_Guide.docx) | Editable Word source export |
+| [Web_Technologies_Exam_Prep_Guide.md](./Web_Technologies_Exam_Prep_Guide.md) | Combined Markdown |
+| `chapters/` | Chapter sources (`00`–`26`) |
 
-## Built from
+## Structure
 
-- Lab 01 (streams), Lab 02 (ADO.NET DAL), Lab 03 (search/JSON/disconnected)
-- HW 4 Car Rental (ASP.NET Core MVC + Bootstrap 5.3)
-- Exam topics you listed (ViewModels, DI, async, layouts) — labelled where ChatGPT history was unavailable
+- **Part I (Ch. 1–15):** C#, HTTP, MVC, Razor, ViewModels, Forms, ADO.NET, Repository, Async, DI, Layouts, Bootstrap, Car Rental, revision  
+- **Part II (Ch. 16–26):** State, Cookies, Serialization, Session, Cart, Identity, Signup, Login, Roles, Part II revision  
 
-## Note
+## Rebuild workflow
 
-ChatGPT conversation history was **not** accessible when this guide was generated. Prefer the PDF for revision; use DOCX if you want to annotate.
+```bash
+cd Exam_Prep_Guide
+cat chapters/*.md > Web_Technologies_Exam_Prep_Guide.md   # use ordered list — see build note
+pandoc Web_Technologies_Exam_Prep_Guide.md -o Web_Technologies_Exam_Prep_Guide.docx --toc --toc-depth=3
+soffice --headless --convert-to pdf --outdir . Web_Technologies_Exam_Prep_Guide.docx
+```
+
+Prefer concatenating chapters in numeric order (`00` … `26`), not raw glob order alone if your shell sorts oddly.

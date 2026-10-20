@@ -194,6 +194,11 @@ string sql = "SELECT * FROM Products WHERE Name LIKE '%" + keyword + "%'";
 
 \newpage
 
-# End of Handbook
+# End of Part I
 
-Practice writing code on paper. Re-do Lab 02 CRUD and HW 4 views without looking. Good luck — Professor Shuja’s Web Technologies (SEF24).
+Part I covers Chapters 1–15 (foundations through the first mock exam).  
+**Part II begins next** with Chapters 16–26: HTTP state management, cookies, session, shopping cart, and ASP.NET Core Identity.
+
+Practice writing Part I code on paper. Re-do Lab 02 CRUD and HW 4 / Lab 5 views without looking before moving on.
+
+\newpage

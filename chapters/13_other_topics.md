@@ -46,6 +46,7 @@ Chapter 3. HW 4 Car Rental is the practical MVC piece.
 - SQL injection → parameterized queries (Labs 02–03)  
 - Antiforgery on POST forms (MVC)  
 - Validate input before DB writes  
+- Cookies / session / Identity security → **Part II Chapters 16–25**
 
 ---
 
@@ -55,13 +56,19 @@ Transactions: brief in Chapter 7. **Unit of Work:** not evidenced — verify.
 
 ---
 
-## 13.9 Testing, deployment
+## 13.9 Authentication and authorization
+
+Deep coverage moved to **Part II** (Chapters 21–25). Earlier this was only a verification-list item.
+
+---
+
+## 13.10 Testing, deployment
 
 Not in provided lab PDFs — verify.
 
 ---
 
-## 13.10 lecture6 stubs
+## 13.11 lecture6 stubs
 
 `Student.cs` / `StudentDAL.cs` match the Lab 02 pattern (model + DAL). Files were empty in the workspace — treat as unfinished practice, not alternate syllabus.
 
@@ -74,7 +81,7 @@ Not in provided lab PDFs — verify.
 - [ ] ViewModels required?  
 - [ ] EF Core ever introduced later?  
 - [ ] Web API?  
-- [ ] Auth?  
-- [ ] Only ADO.NET + MVC + Bootstrap?
+- [ ] Auth / Identity depth on paper? (see Part II)  
+- [ ] Only ADO.NET + MVC + Bootstrap, or also session/Identity?
 
 \newpage

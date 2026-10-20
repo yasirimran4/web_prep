@@ -1,8 +1,8 @@
 ---
 title: "Web Technologies Exam Preparation Guide"
-subtitle: "PUCIT / FCIT — SEF24 — ASP.NET Core MVC, C#, ADO.NET & Bootstrap 5"
+subtitle: "PUCIT / FCIT — SEF24 — ASP.NET Core MVC, C#, ADO.NET, Bootstrap 5, State & Identity"
 author: "Personalized revision handbook for BS Software Engineering"
-date: "October 2026"
+date: "October 2026 (revised — Part II: State, Session, Cart, Identity)"
 ---
 
 \newpage
@@ -23,8 +23,10 @@ This is a **course revision handbook** for your Web Technologies exam at the Uni
 | `SEF24-Web-Lab-02-Updated.docx` | Confirmed | Classes/encapsulation, **ADO.NET**, SQL Server, `ProductDAL`, CRUD, parameterized SQL |
 | `SEF24-Web-Lab-03.docx` | Confirmed | Safe search (anti SQL injection), JSON ser/deser, **disconnected model** (`DataTable`, `SqlDataAdapter`) |
 | `web_hw1.pdf` (HW 4) | Confirmed | ASP.NET Core MVC Car Rental, Bootstrap 5.3, layouts, GET/POST, cards/tables; **no EF Core, DB, repos, or interfaces for that HW** |
+| `HW_5_OC.pdf` (Lab 5) | Confirmed | Book Store MVC: ViewModels, `_Layout`/`RenderBody`/`RenderSection`, plain HTML forms (no Tag Helpers), in-memory lists |
 | `lecture6/` (`Student`, `StudentDAL`) | Partial | Same DAL naming pattern as Lab 02 (files were empty stubs) |
 | Prior ChatGPT Web chats | **Not available** | Topics you listed in the master prompt (ViewModels, DI, async, layouts/sections, etc.) are included as **exam prep aligned with your stated learning goals**, clearly labelled |
+| Part II chapters (16–26) | Exam prep | State, cookies, session, cart, ASP.NET Core Identity — appended from newly studied topics (verify with teacher) |
 
 **Do not claim EF Core was your taught data-access stack.** Labs 02–03 use **ADO.NET + SQL Server**. HW 4 uses **in-memory lists**. Repository/interfaces/DI appear in later conceptual chapters as patterns that build on your DAL work — verify with your teacher if they are on the written exam.
 
@@ -54,13 +56,17 @@ This is a **course revision handbook** for your Web Technologies exam at the Uni
 
 ### 3. Syllabus gaps to verify with your teacher
 
-- Entity Framework Core (HW 4 says **do not use**)
+- Entity Framework Core for *business* data (HW 4 forbids EF; Identity user store often uses EF — confirm exam scope)
 - Unit of Work
 - ASP.NET Core Web APIs
-- Authentication / authorization
 - Deployment and hosting
 - Whether async programming is examinable
 - Whether DI lifetimes (`Transient`/`Scoped`/`Singleton`) are examinable
+- Exact Identity depth on the written paper (Part II Chapters 21–25 prepare you anyway)
+
+### Part II (Chapters 16–26) — newly appended
+
+State management, cookies, JSON in cookies, session, add-to-cart, ASP.NET Core Identity (register/login/logout/roles).
 
 ## Exam strategy (teacher-oriented)
 

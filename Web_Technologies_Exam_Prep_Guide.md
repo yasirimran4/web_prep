@@ -1,8 +1,8 @@
 ---
 title: "Web Technologies Exam Preparation Guide"
-subtitle: "PUCIT / FCIT — SEF24 — ASP.NET Core MVC, C#, ADO.NET & Bootstrap 5"
+subtitle: "PUCIT / FCIT — SEF24 — ASP.NET Core MVC, C#, ADO.NET, Bootstrap 5, State & Identity"
 author: "Personalized revision handbook for BS Software Engineering"
-date: "October 2026"
+date: "October 2026 (revised — Part II: State, Session, Cart, Identity)"
 ---
 
 \newpage
@@ -23,8 +23,10 @@ This is a **course revision handbook** for your Web Technologies exam at the Uni
 | `SEF24-Web-Lab-02-Updated.docx` | Confirmed | Classes/encapsulation, **ADO.NET**, SQL Server, `ProductDAL`, CRUD, parameterized SQL |
 | `SEF24-Web-Lab-03.docx` | Confirmed | Safe search (anti SQL injection), JSON ser/deser, **disconnected model** (`DataTable`, `SqlDataAdapter`) |
 | `web_hw1.pdf` (HW 4) | Confirmed | ASP.NET Core MVC Car Rental, Bootstrap 5.3, layouts, GET/POST, cards/tables; **no EF Core, DB, repos, or interfaces for that HW** |
+| `HW_5_OC.pdf` (Lab 5) | Confirmed | Book Store MVC: ViewModels, `_Layout`/`RenderBody`/`RenderSection`, plain HTML forms (no Tag Helpers), in-memory lists |
 | `lecture6/` (`Student`, `StudentDAL`) | Partial | Same DAL naming pattern as Lab 02 (files were empty stubs) |
 | Prior ChatGPT Web chats | **Not available** | Topics you listed in the master prompt (ViewModels, DI, async, layouts/sections, etc.) are included as **exam prep aligned with your stated learning goals**, clearly labelled |
+| Part II chapters (16–26) | Exam prep | State, cookies, session, cart, ASP.NET Core Identity — appended from newly studied topics (verify with teacher) |
 
 **Do not claim EF Core was your taught data-access stack.** Labs 02–03 use **ADO.NET + SQL Server**. HW 4 uses **in-memory lists**. Repository/interfaces/DI appear in later conceptual chapters as patterns that build on your DAL work — verify with your teacher if they are on the written exam.
 
@@ -54,13 +56,17 @@ This is a **course revision handbook** for your Web Technologies exam at the Uni
 
 ### 3. Syllabus gaps to verify with your teacher
 
-- Entity Framework Core (HW 4 says **do not use**)
+- Entity Framework Core for *business* data (HW 4 forbids EF; Identity user store often uses EF — confirm exam scope)
 - Unit of Work
 - ASP.NET Core Web APIs
-- Authentication / authorization
 - Deployment and hosting
 - Whether async programming is examinable
 - Whether DI lifetimes (`Transient`/`Scoped`/`Singleton`) are examinable
+- Exact Identity depth on the written paper (Part II Chapters 21–25 prepare you anyway)
+
+### Part II (Chapters 16–26) — newly appended
+
+State management, cookies, JSON in cookies, session, add-to-cart, ASP.NET Core Identity (register/login/logout/roles).
 
 ## Exam strategy (teacher-oriented)
 
@@ -82,6 +88,7 @@ Throughout this guide we use **Car Rental**:
 When we add database chapters, the same `Car` maps to a SQL Server table via ADO.NET — the technology your labs actually taught.
 
 \newpage
+
 # Chapter 1: C# and .NET Foundations Relevant to Web Development
 
 ## 1.1 Class, object, instance, and interface
@@ -329,6 +336,7 @@ Your Lab 02 project is a console **Exe** targeting a .NET SDK (`net9.0` appears 
 5. Cannot instantiate an interface; use `new ProductDAL()`.
 
 \newpage
+
 # Chapter 2: Web Fundamentals and HTTP
 
 ## 2.1 Client–server architecture
@@ -457,6 +465,7 @@ Refreshing after redirect does **not** re-POST the book action — that is why P
 4. Query string is in the URL; body is in the POST payload.
 
 \newpage
+
 # Chapter 3: ASP.NET Core MVC Architecture
 
 ## 3.1 What MVC means
@@ -660,6 +669,7 @@ app.Run();
 - Still uses `Index.cshtml` because of the name argument; model is booked list.
 
 \newpage
+
 # Chapter 4: Razor Syntax and Data Passing
 
 ## 4.1 What is Razor?
@@ -853,6 +863,7 @@ else
 **Exam answer:** `@model` declares the view’s type; `@Model` accesses the instance passed by `return View(data)`.
 
 \newpage
+
 # Chapter 5: ViewModels and Multiple Objects
 
 > **Evidence note:** HW 4 only passes `List<Car>`. ViewModels are standard MVC exam material and match topics you listed as studied with ChatGPT; confirm with your teacher if they appear on the paper.
@@ -979,6 +990,7 @@ A ViewModel is a presentation-focused class that packages all data one view need
 **Practice:** Design a ViewModel for Booked page with `Cars`, `Heading`, and `HasBookings` bool.
 
 \newpage
+
 # Chapter 6: HTML Forms, Tag Helpers, GET, POST, and Model Binding
 
 **High priority for HW 4 and exams.**
@@ -1184,6 +1196,7 @@ Protects against Cross-Site Request Forgery.
 **Exam answer:** Model binding maps request values to action parameters/properties by name; POST actions that change state should redirect (PRG) after success.
 
 \newpage
+
 # Chapter 7: Database Connectivity and SQL (ADO.NET)
 
 **High priority.** Confirmed stack from **Lab 02** and **Lab 03**: **ADO.NET** with **SQL Server**, organized in a **DAL** class. **EF Core was not part of your labs; HW 4 forbids it.**
@@ -1546,6 +1559,7 @@ Only if your exam expects async — verify. Pattern matches sync names + `Async`
 **Exam answer:** ADO.NET uses `SqlConnection` and `SqlCommand` to run SQL; `SqlDataReader` reads connected results; parameterized queries prevent SQL injection; a DAL hides all of this from the UI layer.
 
 \newpage
+
 # Chapter 8: Repository Pattern and Application Architecture
 
 ## 8.1 Your DAL *is* the repository idea
@@ -1665,6 +1679,7 @@ public class CarsController : Controller
 **Exam answer:** A repository (or DAL) centralizes data access so controllers request data through methods instead of embedding SQL and connection code.
 
 \newpage
+
 # Chapter 9: Asynchronous Programming in C# and ASP.NET Core
 
 **Critical chapter.** Async was not named in Lab 01–03 PDFs; it is included because your master prompt lists it as studied and it is standard for ASP.NET Core + ADO.NET. **Verify with your teacher whether hand-written async is on the exam.**
@@ -1909,6 +1924,7 @@ Web DB calls → **async I/O**, not “run SQL on 8 cores.”
 **Practice:** Convert Lab 02 `GetAllProducts` to `GetAllProductsAsync` and show the controller signature change.
 
 \newpage
+
 # Chapter 10: Dependency Injection, IoC, Classes, and Interfaces
 
 > **HW 4** forbids interfaces. Still learn DI — it is core ASP.NET Core and often viva/exam material.
@@ -2032,6 +2048,7 @@ If not registered → runtime exception when resolving `CarsController`.
 **Exam answer:** Dependency Injection supplies a class’s dependencies from the outside (usually constructor), often registered in `Program.cs`, so code depends on abstractions and is easier to test and replace.
 
 \newpage
+
 # Chapter 11: Razor Layouts, Shared Files, and Sections
 
 **High priority — HW 4 Task 3.**
@@ -2206,6 +2223,7 @@ HW 4: load Bootstrap **once in the layout**, not in every view.
 **Exam answer:** `_Layout.cshtml` provides shared page chrome; `@RenderBody()` inserts the view; `_ViewStart` sets the default layout; sections inject page-specific CSS/JS into slots in the layout.
 
 \newpage
+
 # Chapter 12: Bootstrap 5 Complete Exam Revision
 
 Based on **HW 4** (Bootstrap **5.3**) plus common components for exams. Bootstrap styles and JS behaviour; it does **not** do server pagination, SQL, or booking logic.
@@ -2442,6 +2460,7 @@ Server must still skip/take rows — Bootstrap only draws controls.
 **Exam answer:** Bootstrap 5 is a CSS/JS toolkit for responsive layout and components; MVC still owns routing, data, and booking logic.
 
 \newpage
+
 # Chapter 13: Other Topics from Course History
 
 ## 13.1 Lab 01 — Streams and file handling (confirmed)
@@ -2490,6 +2509,7 @@ Chapter 3. HW 4 Car Rental is the practical MVC piece.
 - SQL injection → parameterized queries (Labs 02–03)  
 - Antiforgery on POST forms (MVC)  
 - Validate input before DB writes  
+- Cookies / session / Identity security → **Part II Chapters 16–25**
 
 ---
 
@@ -2499,13 +2519,19 @@ Transactions: brief in Chapter 7. **Unit of Work:** not evidenced — verify.
 
 ---
 
-## 13.9 Testing, deployment
+## 13.9 Authentication and authorization
+
+Deep coverage moved to **Part II** (Chapters 21–25). Earlier this was only a verification-list item.
+
+---
+
+## 13.10 Testing, deployment
 
 Not in provided lab PDFs — verify.
 
 ---
 
-## 13.10 lecture6 stubs
+## 13.11 lecture6 stubs
 
 `Student.cs` / `StudentDAL.cs` match the Lab 02 pattern (model + DAL). Files were empty in the workspace — treat as unfinished practice, not alternate syllabus.
 
@@ -2518,10 +2544,11 @@ Not in provided lab PDFs — verify.
 - [ ] ViewModels required?  
 - [ ] EF Core ever introduced later?  
 - [ ] Web API?  
-- [ ] Auth?  
-- [ ] Only ADO.NET + MVC + Bootstrap?
+- [ ] Auth / Identity depth on paper? (see Part II)  
+- [ ] Only ADO.NET + MVC + Bootstrap, or also session/Identity?
 
 \newpage
+
 # Chapter 14: Full Integrated Car Rental Reference
 
 Two tracks are shown on purpose:
@@ -2833,6 +2860,7 @@ GET /Cars/Booked
 Do not present in-memory demos as if they permanently save bookings.
 
 \newpage
+
 # Chapter 15: Final Exam Revision
 
 ## A. One-page cheat sheet
@@ -3029,6 +3057,2061 @@ string sql = "SELECT * FROM Products WHERE Name LIKE '%" + keyword + "%'";
 
 \newpage
 
+# End of Part I
+
+Part I covers Chapters 1–15 (foundations through the first mock exam).  
+**Part II begins next** with Chapters 16–26: HTTP state management, cookies, session, shopping cart, and ASP.NET Core Identity.
+
+Practice writing Part I code on paper. Re-do Lab 02 CRUD and HW 4 / Lab 5 views without looking before moving on.
+
+\newpage
+
+# Chapter 16: State Management and HTTP Statelessness
+
+> **Part II begins here.** Chapters 16–26 cover newly studied topics: state, cookies, session, cart, and Identity. Keep Part I (Chapters 1–15) for MVC, ADO.NET, async, Bootstrap, and layouts.
+
+
+## 16.1 What HTTP is — and why it is called *stateless*
+
+**Simple definition:** **HTTP** (HyperText Transfer Protocol) is the request/response protocol browsers and web servers use to exchange pages and data.
+
+**Why “stateless”?** Each HTTP request is handled **independently**. The protocol itself does **not** automatically remember what happened in the previous request. The server does not keep a built-in “conversation memory” for every visitor inside HTTP alone.
+
+**Important clarification (exam trap):**
+
+| Wrong claim | Correct claim |
+|-------------|---------------|
+| “The browser cannot remember anything between requests.” | The **browser can** remember many things (cookies, local storage, cache). |
+| “HTTP stores your login for you.” | **HTTP alone** does not; apps add **state mechanisms** (cookies, session, DB). |
+
+**Roman Urdu tip:** HTTP har request ko naya mehmaan samajhta hai — pehli request ka “yaad” protocol khud nahi rakhta. App ko cookies/session/database se yaad rakhni padti hai.
+
+---
+
+## 16.2 Request/response cycle with multiple requests
+
+```
+Request 1: GET /Products
+  Browser → Server → HTML list of products
+  (Server forgets this visitor after the response, unless app saved state)
+
+Request 2: POST /Cart/Add (productId=1)
+  Browser → Server → redirect
+  (New request; server does not automatically know Request 1’s local variables)
+
+Request 3: GET /Cart
+  Browser → Server → show cart
+  (Works only if cart was stored in cookie/session/DB)
+```
+
+**Expected browser behaviour:** Pages load; URLs change; without state storage, a “cart variable” invented inside one action is **gone** on the next request.
+
+---
+
+## 16.3 Why local variables do not preserve state
+
+```csharp
+// Controllers/DemoController.cs — BAD idea for multi-request memory
+public class DemoController : Controller
+{
+    private int _clicks = 0; // instance field — new controller often per request!
+
+    public IActionResult Click()
+    {
+        _clicks++;
+        return Content($"Clicks = {_clicks}");
+    }
+}
+```
+
+**Why this fails as “user state”:**
+
+1. ASP.NET Core typically creates a **new controller instance per request**.
+2. Local/`new` variables live only for that request’s method call.
+3. Even `static` fields are shared across **all users** (dangerous and wrong for carts).
+
+**Exam answer:** Local variables exist only during one request’s execution; the next HTTP request starts fresh unless you store data in a state mechanism.
+
+---
+
+## 16.4 What state management means
+
+**Definition:** **State management** means deliberately storing information so a later request can use it.
+
+**Why web apps need it:** Shopping carts, login, theme preference (“dark mode”), multi-step forms, “Welcome back, Ali”.
+
+---
+
+## 16.5 Client-side vs server-side state
+
+| Side | Examples | Stored where? |
+|------|----------|---------------|
+| **Client-side** | Cookies, some browser storage | Mostly on the user’s machine / browser |
+| **Server-side** | Session data, database rows | On the server (session often keyed by an id cookie) |
+| **Request-only** | ViewBag, ViewData | Current request only (not across redirects permanently except TempData) |
+
+---
+
+## 16.6 Mechanisms overview
+
+| Mechanism | Where stored | Typical lifetime | Survives redirect? | Survives browser restart? |
+|-----------|--------------|------------------|--------------------|---------------------------|
+| ViewBag / ViewData | Server memory for **this** request | One request | No | No |
+| TempData | Server (backed by cookie/session) | Until read (often next request) | Yes (one hop) | Usually no |
+| Cookie | **Browser** | Until expiry / deleted | Yes | If persistent cookie |
+| Session | **Server** (data) + id cookie in browser | Idle timeout / session end | Yes | In-memory: no (app restart clears) |
+| Database | SQL Server / PostgreSQL | Permanent until deleted | Yes | Yes |
+
+---
+
+## 16.7 Practical demo: state loss vs preservation
+
+**Loss example** — count in a local variable (resets):
+
+```csharp
+public IActionResult Lost()
+{
+    int n = 0;
+    n++;
+    return Content($"Always 1 → {n}");
+}
+```
+
+**Preservation examples** (covered in depth next chapters):
+
+- Cookie: `Response.Cookies.Append("VisitCount", "3");`
+- Session: `HttpContext.Session.SetInt32("VisitCount", 3);`
+- Database: `UPDATE Users SET LastVisit = ...`
+
+---
+
+## 16.8 Security considerations (preview)
+
+| Mechanism | Security notes |
+|-----------|----------------|
+| Cookies | Visible/modifiable by client unless protected; never put passwords; use `HttpOnly`/`Secure`/`SameSite` wisely |
+| Session | Data on server is safer from casual tampering; still protect the session id cookie |
+| ViewBag/ViewData | Not for cross-request secrets |
+| Database | Best for durable, authoritative data (prices, stock, orders) |
+
+---
+
+## 16.9 Exam-style questions
+
+**Theory**
+
+1. Why is HTTP called stateless?  
+2. Does a browser remember anything between requests? Explain.  
+3. Why can’t a local `List<CartItem>` inside one action be “the cart” for later pages?
+
+**Coding**
+
+4. Write two actions: one that tries to store a name in a local field, and explain why a second action cannot reliably read it for that user.
+
+**Common mistakes**
+
+- Using `static List<Cart>` for all users’ carts (data leak across users).  
+- Believing ViewBag survives a redirect like a cookie.  
+- Storing passwords in cookies.
+
+### Answer key (16)
+
+1. Each request is independent; HTTP does not keep application conversation state by itself.  
+2. Yes — browser can store cookies, cache, etc.; HTTP protocol still treats requests separately.  
+3. That list dies when the request ends; next request needs cookie/session/DB.  
+4. Open-ended; grader looks for “new request / new scope” explanation.
+
+\newpage
+
+# Chapter 17: Cookies in ASP.NET Core MVC
+
+## 17.1 What a cookie is
+
+**Simple definition:** A **cookie** is a small name/value piece of data that the **server asks the browser to store**, and that the **browser sends back** on later matching requests.
+
+**Where stored?** In the **browser** (client), not as an ordinary file on your web server’s disk for each preference.
+
+**Intuition:** The server gives the browser a tiny sticker. Next visit, the browser shows the sticker so the server can recognise preferences or a session id.
+
+---
+
+## 17.2 Complete cookie lifecycle
+
+```
+1. Browser → GET /Account/SetName
+2. Server action runs Response.Cookies.Append("UserName", "Ali", options)
+3. HTTP Response includes header: Set-Cookie: UserName=Ali; path=/; ...
+4. Browser stores cookie UserName=Ali
+5. Later Browser → GET /Account/Hello
+   Request includes header: Cookie: UserName=Ali
+6. Server reads Request.Cookies["UserName"] → "Ali"
+7. To delete: Response.Cookies.Delete("UserName") → Set-Cookie with expired date
+```
+
+**Critical distinction:**
+
+| API | Direction | Meaning |
+|-----|-----------|---------|
+| `Response.Cookies.Append` / `Delete` | **Server → Browser** | Instruct browser to create/update/delete |
+| `Request.Cookies["name"]` | **Browser → Server** | Read what browser sent on **this** request |
+
+You cannot “read” a cookie you just appended on the **same** response’s `Request.Cookies` in a reliable teaching sense for a brand-new cookie — the browser sends it on the **next** request.
+
+---
+
+## 17.3 Complete controller example
+
+**File:** `Controllers/CookieDemoController.cs`
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebShop.Controllers
+{
+    public class CookieDemoController : Controller
+    {
+        private const string CookieName = "UserName";
+
+        // 1) Create / set cookie
+        [HttpGet]
+        public IActionResult SetName(string name = "Ali")
+        {
+            var options = new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+                HttpOnly = true,          // not readable by JavaScript (helps vs XSS theft)
+                Secure = false,           // set true in production WITH HTTPS
+                SameSite = SameSiteMode.Lax,
+                IsEssential = true,       // if using cookie consent middleware
+                Path = "/"
+            };
+
+            Response.Cookies.Append(CookieName, name, options);
+            return Content($"Cookie '{CookieName}' set to '{name}'. Now open /CookieDemo/ReadName");
+        }
+
+        // 2) Read cookie on another request
+        [HttpGet]
+        public IActionResult ReadName()
+        {
+            string? value = Request.Cookies[CookieName];
+            if (string.IsNullOrEmpty(value))
+                return Content("Cookie missing or expired.");
+
+            return Content($"Hello, {value}! (read from Request.Cookies)");
+        }
+
+        // 3) Update cookie (Append again with same name)
+        [HttpGet]
+        public IActionResult UpdateName(string name = "Sara")
+        {
+            Response.Cookies.Append(CookieName, name, new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+                HttpOnly = true,
+                SameSite = SameSiteMode.Lax,
+                Path = "/"
+            });
+            return Content($"Updated cookie to '{name}'.");
+        }
+
+        // 4) Delete cookie
+        [HttpGet]
+        public IActionResult DeleteName()
+        {
+            Response.Cookies.Delete(CookieName);
+            // Or: Response.Cookies.Delete(CookieName, new CookieOptions { Path = "/" });
+            return Content("Cookie deleted (browser will drop it).");
+        }
+
+        // 5) Handle missing / expired
+        [HttpGet]
+        public IActionResult SafeRead()
+        {
+            if (!Request.Cookies.TryGetValue(CookieName, out string? value)
+                || string.IsNullOrWhiteSpace(value))
+            {
+                return RedirectToAction(nameof(SetName));
+            }
+            return View("Greeting", model: value);
+        }
+    }
+}
+```
+
+**Optional view** `Views/CookieDemo/Greeting.cshtml`:
+
+```cshtml
+@model string
+<h2>Welcome back, @Model</h2>
+```
+
+### Line-by-line highlights
+
+- `CookieOptions.Expires` — persistent cookie until that time; omit Expires for a session cookie (browser session).  
+- `HttpOnly = true` — JavaScript cannot read it via `document.cookie` (reduces XSS cookie theft). **Not encryption.**  
+- `Secure = true` — browser sends cookie only over **HTTPS**.  
+- `SameSite` — controls cross-site sending (`Strict` / `Lax` / `None`).  
+- `Path` / `Domain` — scope which URLs receive the cookie.
+
+---
+
+## 17.4 Expected output
+
+1. Visit `/CookieDemo/SetName?name=Ali` → text says cookie set.  
+2. Visit `/CookieDemo/ReadName` → `Hello, Ali!`  
+3. Visit `/CookieDemo/UpdateName?name=Sara` then Read → `Hello, Sara!`  
+4. Visit `/CookieDemo/DeleteName` then Read → `Cookie missing or expired.`
+
+---
+
+## 17.5 Cookie security limitations
+
+1. Users can edit cookies in DevTools — **do not trust cookie values for prices or roles**.  
+2. Serialization ≠ encryption (next chapter).  
+3. `HttpOnly` ≠ confidential from the user; user can still see it in browser tools.  
+4. Large data / secrets / passwords → **never** in ordinary cookies.  
+5. Prefer session/DB for carts and authoritative business data.
+
+---
+
+## 17.6 Comparison: Request vs Response cookies
+
+| | Request | Response |
+|-|---------|----------|
+| Who fills it? | Browser | Your server code |
+| Typical API | `Request.Cookies["x"]` | `Response.Cookies.Append` / `Delete` |
+| Meaning | “What I already have” | “Please store/change this” |
+
+---
+
+## 17.7 Exam practice
+
+**Q1.** Where is a cookie stored?  
+**Q2.** Write code to create an HttpOnly cookie named `Theme` = `dark` for 30 days.  
+**Q3.** Find the error: reading `Request.Cookies["Theme"]` in the same action immediately after `Append` and expecting it always for a brand-new cookie.  
+**Q4.** Difference between deleting a cookie and letting it expire.
+
+### Answer key
+
+1. In the browser (client).  
+2. `Response.Cookies.Append("Theme","dark", new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(30), HttpOnly = true });`  
+3. New cookie is sent by browser on **subsequent** requests.  
+4. Delete sends instruction to remove now; expiry removes automatically later.
+
+\newpage
+
+# Chapter 18: Serialization and Deserialization of Objects in Cookies
+
+## 18.1 Why a C# object cannot be a cookie value
+
+Cookies store **strings** (name/value text). A `Customer` object lives in .NET memory with fields and type info. You cannot write:
+
+```csharp
+Response.Cookies.Append("Customer", customer); // INVALID — needs string
+```
+
+You must convert the object to a string first (**serialize**), then later convert the string back (**deserialize**).
+
+---
+
+## 18.2 Definitions
+
+| Term | Meaning |
+|------|---------|
+| **Serialization** | Object → string (often JSON) |
+| **Deserialization** | String → object |
+| **JSON** | Text format like `{"Id":1,"Name":"Ali"}` — useful, readable, standard |
+
+**Analogy:** Serialization packs a suitcase (object → JSON text). Deserialization unpacks it.
+
+```csharp
+using System.Text.Json;
+
+string json = JsonSerializer.Serialize(customer);
+Customer? customer = JsonSerializer.Deserialize<Customer>(json);
+```
+
+---
+
+## 18.3 Serialization is NOT encryption
+
+| Claim | Truth |
+|-------|-------|
+| “JSON in cookie is secret” | **False** — anyone can read/edit it in DevTools |
+| “HttpOnly encrypts data” | **False** — only blocks JS access |
+| “Safe for passwords” | **Never** store passwords/secrets/trusted money values in ordinary cookies |
+
+Cookie size is limited (often ~4KB per cookie). Prefer **session** or **database** for large carts or sensitive data.
+
+---
+
+## 18.4 Complete MVC example
+
+### Model — `Models/Customer.cs`
+
+```csharp
+namespace WebShop.Models
+{
+    public class Customer
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+    }
+}
+```
+
+### Controller — `Controllers/CustomerCookieController.cs`
+
+```csharp
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using WebShop.Models;
+
+namespace WebShop.Controllers
+{
+    public class CustomerCookieController : Controller
+    {
+        private const string CookieKey = "CustomerJson";
+
+        [HttpGet]
+        public IActionResult Save()
+        {
+            var customer = new Customer
+            {
+                Id = 1,
+                Name = "Ali Khan",
+                City = "Lahore"
+            };
+
+            string json = JsonSerializer.Serialize(customer);
+
+            Response.Cookies.Append(CookieKey, json, new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddHours(2),
+                HttpOnly = true,
+                SameSite = SameSiteMode.Lax,
+                Path = "/"
+                // Do NOT put passwords here
+            });
+
+            return Content("Customer saved to cookie as JSON. Visit /CustomerCookie/Load");
+        }
+
+        [HttpGet]
+        public IActionResult Load()
+        {
+            if (!Request.Cookies.TryGetValue(CookieKey, out string? json)
+                || string.IsNullOrWhiteSpace(json))
+            {
+                return Content("No customer cookie found.");
+            }
+
+            try
+            {
+                Customer? customer = JsonSerializer.Deserialize<Customer>(json);
+                if (customer == null)
+                    return Content("Cookie JSON was empty/invalid.");
+
+                return Content($"Loaded: {customer.Id} — {customer.Name} ({customer.City})");
+            }
+            catch (JsonException)
+            {
+                return Content("Invalid JSON in cookie (tampered or corrupt).");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Clear()
+        {
+            Response.Cookies.Delete(CookieKey);
+            return Content("Customer cookie cleared.");
+        }
+    }
+}
+```
+
+### Execution flow
+
+1. `Save` builds `Customer` → `Serialize` → string → `Response.Cookies.Append`.  
+2. Browser stores JSON text.  
+3. `Load` reads `Request.Cookies` → `Deserialize<Customer>` → use properties.  
+4. Missing/invalid JSON → friendly message / try-catch.
+
+### Expected browser text
+
+- After Save: confirmation message.  
+- After Load: `Loaded: 1 — Ali Khan (Lahore)`.
+
+---
+
+## 18.5 When to prefer session or database
+
+| Use cookie JSON | Prefer session / DB |
+|-----------------|---------------------|
+| Small preferences (theme, city label) | Shopping cart, orders |
+| Non-sensitive display hints | Prices, stock, roles, passwords |
+| Tiny objects | Large lists |
+
+---
+
+## 18.6 Exam practice
+
+**Q1.** Define serialization and deserialization.  
+**Q2.** Why not store password in a cookie even if HttpOnly?  
+**Q3.** Write Serialize + Append for a `Product` with Id/Name/Price.  
+**Q4.** What happens if JSON is edited by the user?
+
+### Answer key
+
+1. Object↔string conversion.  
+2. User can still see/edit; not encrypted; credential theft risk.  
+3. Similar to Save action above.  
+4. Deserialize may throw or produce wrong object — validate; never trust for money/auth.
+
+\newpage
+
+# Chapter 19: Session State in ASP.NET Core MVC
+
+## 19.1 Cookies vs session (detail)
+
+| | Cookie | Session |
+|-|--------|---------|
+| Main data location | Browser | **Server** (by default in-memory cache in teaching apps) |
+| What browser usually keeps | The full small value **or** only a **session id** cookie | Session **id** cookie (not the whole cart object) |
+| Size | Small (~4KB) | Larger server-side payloads OK (within reason) |
+| Tampering | Easy for user to edit values | Harder to edit server data; id still sensitive |
+| App restart (in-memory) | Cookie may remain | **In-memory session data is lost** |
+| Multi-server | Cookie still on client | In-memory session **not shared** across servers without sticky sessions / distributed cache |
+
+**Clarify:** Session data is generally **server-side**. The browser stores a **session identifier**, not the complete session dictionary.
+
+---
+
+## 19.2 How session works
+
+```
+1. First request that uses session → server creates session id
+2. Response Set-Cookie: .AspNetCore.Session=...
+3. Next requests send that cookie
+4. Server loads session data for that id from its store
+5. Idle timeout expires → session data discarded
+```
+
+---
+
+## 19.3 Configure session in `Program.cs`
+
+**Order matters:** `UseSession()` must run **before** endpoints that need session, and after routing is configured appropriately. Typical MVC order:
+
+```csharp
+// Program.cs
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+// 1) In-memory distributed cache (required for default session store)
+builder.Services.AddDistributedMemoryCache();
+
+// 2) Session services
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // idle expiry
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.Name = ".WebShop.Session";
+});
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+}
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseSession(); // MUST be before MapControllerRoute / endpoints that use session
+
+app.UseAuthorization(); // if you also use auth later: UseAuthentication before UseAuthorization
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+```
+
+### Line-by-line
+
+- `AddDistributedMemoryCache` — provides the storage provider session needs.  
+- `AddSession` — registers session feature + cookie options.  
+- `IdleTimeout` — if user idle 20 minutes, session expires.  
+- `UseSession` — enables reading/writing `HttpContext.Session` for the request.
+
+**Without these:** `HttpContext.Session` throws or is unavailable.
+
+---
+
+## 19.4 Reading and writing values
+
+**File:** `Controllers/SessionDemoController.cs`
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebShop.Controllers
+{
+    public class SessionDemoController : Controller
+    {
+        [HttpGet]
+        public IActionResult Set()
+        {
+            HttpContext.Session.SetString("UserName", "Ali");
+            HttpContext.Session.SetInt32("VisitCount", 1);
+            return Content("Session values set. Visit /SessionDemo/Get");
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            string? name = HttpContext.Session.GetString("UserName");
+            int? visits = HttpContext.Session.GetInt32("VisitCount");
+
+            if (name == null)
+                return Content("No UserName in session (new/expired/missing).");
+
+            return Content($"Name={name}, Visits={visits}");
+        }
+
+        [HttpGet]
+        public IActionResult Bump()
+        {
+            int count = HttpContext.Session.GetInt32("VisitCount") ?? 0;
+            count++;
+            HttpContext.Session.SetInt32("VisitCount", count);
+            return Content($"VisitCount is now {count}");
+        }
+
+        [HttpGet]
+        public IActionResult Clear()
+        {
+            HttpContext.Session.Clear();
+            return Content("Session cleared.");
+        }
+    }
+}
+```
+
+### Important APIs
+
+```csharp
+HttpContext.Session.SetString(key, value);
+HttpContext.Session.GetString(key);      // null if missing
+
+HttpContext.Session.SetInt32(key, value);
+HttpContext.Session.GetInt32(key);       // int? null if missing
+```
+
+There is **no** built-in `SetObject` — store objects via JSON (next section / cart chapter).
+
+---
+
+## 19.5 Storing objects with JSON in session
+
+```csharp
+using System.Text.Json;
+
+public static class SessionExtensions
+{
+    public static void SetObject<T>(this ISession session, string key, T value)
+    {
+        session.SetString(key, JsonSerializer.Serialize(value));
+    }
+
+    public static T? GetObject<T>(this ISession session, string key)
+    {
+        string? json = session.GetString(key);
+        return json == null ? default : JsonSerializer.Deserialize<T>(json);
+    }
+}
+```
+
+(Full helper used again in Chapter 20.)
+
+---
+
+## 19.6 App restart and multi-server limits
+
+| Scenario | In-memory session (`AddDistributedMemoryCache`) |
+|----------|--------------------------------------------------|
+| App pool recycle / `dotnet run` restart | Session data **gone** |
+| Two servers behind load balancer | User may hit another server → session **missing** unless sticky sessions or Redis/SQL distributed cache |
+
+Cookies for preferences may still exist; do not confuse them with session payload.
+
+---
+
+## 19.7 Exam practice
+
+**Q1.** Where is session *data* stored vs the session *id*?  
+**Q2.** Write `Program.cs` lines for memory cache + session + `UseSession`.  
+**Q3.** Why might GetString return null after 25 minutes?  
+**Q4.** Cookie vs session for a 20-item cart?
+
+### Answer key
+
+1. Data on server; id usually in browser cookie.  
+2. See section 19.3.  
+3. IdleTimeout expired (if 20 min).  
+4. Session (or DB) preferred — cookies too small/insecure for cart authority.
+
+\newpage
+
+# Chapter 20: Add-to-Cart Logic in ASP.NET Core MVC
+
+This chapter combines **HTTP statelessness**, **session**, **JSON serialization**, **models**, **controllers**, **views**, and **forms**.
+
+## 20.1 Teaching store products
+
+| Product ID | Product | Price |
+|------------|---------|------:|
+| 1 | Mouse | PKR 1,500 |
+| 2 | Keyboard | PKR 3,000 |
+| 3 | Headphones | PKR 4,000 |
+
+**Teaching assumption:** product catalogue is an **in-memory list**.  
+**Real apps:** load products and **authoritative prices** from the database; validate stock/quantity; recalculate totals on the server at checkout. Never trust a price posted from the browser.
+
+**Why not store the whole cart in a cookie?** Size limits, easy tampering of quantities/prices, and awkward updates. **Session** (or DB for logged-in carts) is more suitable for teaching and many real apps.
+
+---
+
+## 20.2 Project files
+
+```text
+Models/Product.cs
+Models/CartItem.cs
+Extensions/SessionExtensions.cs
+Controllers/CartController.cs
+Views/Cart/Index.cshtml
+Program.cs   (session enabled — Chapter 19)
+```
+
+Namespace throughout: `WebShop`.
+
+---
+
+## 20.3 Models
+
+**`Models/Product.cs`**
+
+```csharp
+namespace WebShop.Models
+{
+    public class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+    }
+}
+```
+
+**`Models/CartItem.cs`**
+
+```csharp
+namespace WebShop.Models
+{
+    public class CartItem
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public decimal UnitPrice { get; set; }
+        public int Quantity { get; set; }
+
+        public decimal Subtotal => UnitPrice * Quantity;
+    }
+}
+```
+
+---
+
+## 20.4 Session helper
+
+**`Extensions/SessionExtensions.cs`**
+
+```csharp
+using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+
+namespace WebShop.Extensions
+{
+    public static class SessionExtensions
+    {
+        public static void SetObject<T>(this ISession session, string key, T value)
+        {
+            session.SetString(key, JsonSerializer.Serialize(value));
+        }
+
+        public static T? GetObject<T>(this ISession session, string key)
+        {
+            string? json = session.GetString(key);
+            if (string.IsNullOrWhiteSpace(json))
+                return default;
+            return JsonSerializer.Deserialize<T>(json);
+        }
+    }
+}
+```
+
+---
+
+## 20.5 Cart controller (complete)
+
+**`Controllers/CartController.cs`**
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using WebShop.Extensions;
+using WebShop.Models;
+
+namespace WebShop.Controllers
+{
+    public class CartController : Controller
+    {
+        private const string CartKey = "ShoppingCart";
+
+        // Teaching catalogue — replace with DB in production
+        private static readonly List<Product> Products = new()
+        {
+            new Product { Id = 1, Name = "Mouse", Price = 1500m },
+            new Product { Id = 2, Name = "Keyboard", Price = 3000m },
+            new Product { Id = 3, Name = "Headphones", Price = 4000m }
+        };
+
+        private List<CartItem> GetCart()
+        {
+            return HttpContext.Session.GetObject<List<CartItem>>(CartKey)
+                   ?? new List<CartItem>();
+        }
+
+        private void SaveCart(List<CartItem> cart)
+        {
+            HttpContext.Session.SetObject(CartKey, cart);
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            List<CartItem> cart = GetCart();
+            ViewBag.Products = Products; // for Add buttons on same page (teaching)
+            ViewBag.Total = cart.Sum(i => i.Subtotal);
+            return View(cart);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(int productId)
+        {
+            Product? product = Products.FirstOrDefault(p => p.Id == productId);
+            if (product == null)
+                return RedirectToAction(nameof(Index));
+
+            List<CartItem> cart = GetCart();
+            CartItem? existing = cart.FirstOrDefault(i => i.ProductId == productId);
+
+            if (existing != null)
+            {
+                existing.Quantity++; // already in cart → increase quantity
+            }
+            else
+            {
+                cart.Add(new CartItem
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Name,
+                    UnitPrice = product.Price, // from server list, not from form
+                    Quantity = 1
+                });
+            }
+
+            SaveCart(cart);
+            return RedirectToAction(nameof(Index)); // PRG pattern
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Remove(int productId)
+        {
+            List<CartItem> cart = GetCart();
+            CartItem? item = cart.FirstOrDefault(i => i.ProductId == productId);
+            if (item != null)
+            {
+                cart.Remove(item);
+                SaveCart(cart);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}
+```
+
+---
+
+## 20.6 View
+
+**`Views/Cart/Index.cshtml`**
+
+```cshtml
+@model List<WebShop.Models.CartItem>
+@{
+    ViewData["Title"] = "Cart";
+    var products = (List<WebShop.Models.Product>)ViewBag.Products;
+    decimal total = (decimal)ViewBag.Total;
+}
+
+<h2>Products</h2>
+<div class="row mb-4">
+@foreach (var p in products)
+{
+    <div class="col-md-4 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <h5>@p.Name</h5>
+                <p>PKR @p.Price</p>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@p.Id" />
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+</div>
+
+<h2>Your Cart</h2>
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">Cart is empty.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.UnitPrice</td>
+                <td>@item.Quantity</td>
+                <td>@item.Subtotal</td>
+                <td>
+                    <form asp-action="Remove" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button class="btn btn-sm btn-danger" type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <p class="fw-bold">Total: PKR @total</p>
+}
+```
+
+Ensure `_ViewImports.cshtml` has Tag Helpers enabled (Part I Chapter 11).
+
+---
+
+## 20.7 Request → response execution flow
+
+```
+User clicks Add on Mouse (Id=1)
+  → POST /Cart/Add  (form: productId=1 + antiforgery)
+  → Model binder sets productId = 1
+  → Controller loads cart from Session (JSON → List<CartItem>)
+  → Finds Product 1 in server list (price 1500)
+  → If Mouse already in cart: Quantity++
+    else: add new CartItem Quantity=1
+  → Save cart to Session (List → JSON string)
+  → 302 Redirect /Cart/Index
+  → GET Index loads cart from Session → HTML table
+```
+
+**Relationship to HTTP statelessness:** Each POST/GET is a new request. The cart survives only because **session** (server data + session id cookie) reconnects requests for the same browser session.
+
+---
+
+## 20.8 Dry run — two clicks on Mouse
+
+| Step | Cart in session after action |
+|------|------------------------------|
+| Start | `[]` |
+| 1st Add Mouse | `[{Mouse, 1500, Qty 1, Sub 1500}]` Total 1500 |
+| 2nd Add Mouse | `[{Mouse, 1500, Qty 2, Sub 3000}]` Total 3000 |
+
+Browser does **not** need to send the whole cart each time — only the session cookie id + `productId`.
+
+---
+
+## 20.9 Common mistakes
+
+1. Trusting `price` from a hidden form field.  
+2. Forgetting `UseSession` / `AddSession`.  
+3. Using `static List<CartItem>` for all users.  
+4. Not redirecting after POST (refresh re-adds).  
+5. Storing cart only in a huge cookie.
+
+---
+
+## 20.10 Exam questions
+
+1. Explain how the cart persists across requests.  
+2. Write `Add` logic that increments quantity.  
+3. Why recalculate price from server catalogue?
+
+\newpage
+
+# Chapter 21: Authentication, Authorization, and ASP.NET Core Identity
+
+## 21.1 Three separate ideas
+
+| Concept | Question it answers | Simple meaning |
+|---------|---------------------|----------------|
+| **Authentication** | Who are you? | Prove identity (login) |
+| **Authorization** | What may you do? | Permissions / roles after you are known |
+| **ASP.NET Core Identity** | How do we manage users? | Framework for users, password hashes, roles, cookies, account APIs |
+
+**Analogy:** Authentication = showing your student ID at the gate. Authorization = whether that ID allows the admin lab. Identity = the university system that issues IDs and stores hashed credentials.
+
+---
+
+## 21.2 Authentication cookie vs preference cookie
+
+| Ordinary preference cookie | Authentication cookie (Identity) |
+|----------------------------|----------------------------------|
+| Theme, language, city label | Protected login ticket |
+| Often readable meaning | Encrypted/protected by data-protection APIs |
+| You invent the value | Created by `SignInManager` after password check |
+| Not proof of identity | Establishes `HttpContext.User` |
+
+**Password is never stored in the authentication cookie.** The cookie carries a secure authentication ticket / claims principal reference, not your password text.
+
+---
+
+## 21.3 How a user stays signed in
+
+```
+Signup
+  → User record created in database
+  → Password stored as a secure hash (not plain text)
+  → Login
+  → Password verification against hash
+  → Authentication ticket/cookie issued
+  → Subsequent requests send auth cookie
+  → Authentication middleware builds ClaimsPrincipal (current user)
+  → Authorization middleware checks [Authorize] / roles
+```
+
+Between requests, HTTP is still stateless — the **auth cookie** (and Identity store) reconnects identity.
+
+---
+
+## 21.4 Middleware roles
+
+| Middleware | Job |
+|------------|-----|
+| `UseAuthentication()` | Read auth cookie → set `HttpContext.User` |
+| `UseAuthorization()` | Enforce `[Authorize]` / policies / roles |
+
+**Order:** `UseAuthentication()` **before** `UseAuthorization()`.
+
+---
+
+## 21.5 Important Identity types
+
+| Type | Role |
+|------|------|
+| `UserManager<IdentityUser>` | Create users, hash passwords, add to roles, find by email |
+| `SignInManager<IdentityUser>` | Sign in / sign out / password sign-in |
+| `RoleManager<IdentityRole>` | Create/check roles |
+| User store / `IdentityDbContext` | EF Core tables for users, roles, claims |
+| Database | Persistent user/role data |
+
+Async reminder (Part I Chapter 9): Identity methods are async — use `async Task<IActionResult>` and `await`. Do **not** call `.Result` / `.Wait()` on Identity tasks in MVC actions.
+
+---
+
+## 21.6 Exam answers to memorise
+
+- **Authentication** identifies the user.  
+- **Authorization** decides access rights.  
+- **Identity** is the built-in membership system (users, hashes, roles, auth cookie).
+
+\newpage
+
+# Chapter 22: Configuring ASP.NET Core Identity
+
+## 22.1 Packages and providers
+
+Typical NuGet packages (versions follow your SDK):
+
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+- `Microsoft.EntityFrameworkCore.SqlServer` **or** `Npgsql.EntityFrameworkCore.PostgreSQL`
+- `Microsoft.EntityFrameworkCore.Tools` (migrations)
+
+**Lab history note:** Earlier labs used **ADO.NET + SQL Server**. Identity scaffolding commonly uses **EF Core** for its user store. That does **not** erase your ADO.NET knowledge — Identity’s membership tables are a separate concern. HW 4 still forbade EF for that car-rental exercise.
+
+---
+
+## 22.2 ApplicationDbContext
+
+**`Data/ApplicationDbContext.cs`**
+
+```csharp
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace WebShop.Data
+{
+    public class ApplicationDbContext : IdentityDbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+    }
+}
+```
+
+`IdentityDbContext` (or `IdentityDbContext<IdentityUser>`) already includes user/role tables.
+
+---
+
+## 22.3 Connection string placeholders
+
+**`appsettings.json`** — supply **your** values; do not invent real passwords in notes:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER;Database=WebShopIdentity;User Id=YOUR_USER;Password=YOUR_PASSWORD;TrustServerCertificate=True;"
+  }
+}
+```
+
+**PostgreSQL variant:**
+
+```json
+"DefaultConnection": "Host=YOUR_HOST;Port=5432;Database=WebShopIdentity;Username=YOUR_USER;Password=YOUR_PASSWORD"
+```
+
+---
+
+## 22.4 Register services in `Program.cs`
+
+**SQL Server:**
+
+```csharp
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebShop.Data;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.SignIn.RequireConfirmedAccount = false; // teaching default
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
+builder.Services.AddControllersWithViews();
+// If you still use session for cart:
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
+var app = builder.Build();
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseSession();
+app.UseAuthentication(); // before authorization
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+```
+
+**PostgreSQL change only the DbContext line:**
+
+```csharp
+options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+```
+
+---
+
+## 22.5 Migrations and schema
+
+In Rider / terminal (project folder):
+
+```bash
+dotnet ef migrations add InitialIdentity
+dotnet ef database update
+```
+
+This creates Identity tables (`AspNetUsers`, `AspNetRoles`, …). You must have EF tools installed and a valid connection string.
+
+---
+
+## 22.6 Custom MVC pages vs Identity UI scaffolding
+
+| Approach | Meaning |
+|----------|---------|
+| **Custom MVC** (this guide) | You write `AccountController`, ViewModels, Razor views |
+| **Identity UI / scaffold** | Visual Studio can add prebuilt Register/Login Razor Class Library pages |
+
+Both use the same `UserManager` / `SignInManager` under the hood. Exams often want **custom** controller actions you can write by hand.
+
+---
+
+## 22.7 Middleware order checklist
+
+```
+UseRouting → UseSession (if any) → UseAuthentication → UseAuthorization → MapControllers
+```
+
+Wrong order → user appears anonymous, or `[Authorize]` misbehaves.
+
+\newpage
+
+# Chapter 23: Signup and Registration
+
+## 23.1 RegisterViewModel
+
+**`ViewModels/RegisterViewModel.cs`**
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace WebShop.ViewModels
+{
+    public class RegisterViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        [MinLength(6)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare(nameof(Password), ErrorMessage = "Passwords do not match.")]
+        [Display(Name = "Confirm password")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+}
+```
+
+**Two validation layers:**
+
+1. **ViewModel annotations** + `ModelState.IsValid` (format, required, compare).  
+2. **Identity password policy** inside `CreateAsync` (length, digits, etc. from `IdentityOptions`).
+
+Never assign `user.PasswordHash = plainPassword` yourself. Always use Identity APIs so the password is **hashed**.
+
+---
+
+## 23.2 AccountController — register actions
+
+**`Controllers/AccountController.cs`** (register portion)
+
+```csharp
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using WebShop.ViewModels;
+
+namespace WebShop.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+
+        public AccountController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new IdentityUser
+            {
+                UserName = model.Email,
+                Email = model.Email
+            };
+
+            // Password hashed inside CreateAsync — never store plain text
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                // Optional: sign in immediately after register
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
+        }
+    }
+}
+```
+
+### Why `async` / `await`?
+
+`CreateAsync` and `SignInAsync` touch the database and auth cookie — they return `Task` / `Task<IdentityResult>`. The action must be:
+
+```csharp
+public async Task<IActionResult> Register(...)
+```
+
+and **await** those calls. Avoid `.Result`.
+
+---
+
+## 23.3 Registration view
+
+**`Views/Account/Register.cshtml`**
+
+```cshtml
+@model WebShop.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Create account</h2>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Register" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <input asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+```
+
+---
+
+## 23.4 Execution flow
+
+1. GET Register → empty form.  
+2. POST with email/password → antiforgery OK.  
+3. `ModelState` checks annotations.  
+4. `CreateAsync` hashes password, inserts user.  
+5. Failures (weak password, duplicate email) → Identity errors into `ModelState` → redisplay form.  
+6. Success → optional `SignInAsync` → redirect Home (auth cookie set).
+
+---
+
+## 23.5 Exam tips
+
+- Do not insert passwords with raw SQL into Identity tables.  
+- Public registration must **not** let users pick `Admin` role (Chapter 25).  
+- `[ValidateAntiForgeryToken]` on POST.
+
+\newpage
+
+# Chapter 24: Login, Logout, and Authentication Cookies
+
+## 24.1 LoginViewModel
+
+**`ViewModels/LoginViewModel.cs`**
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace WebShop.ViewModels
+{
+    public class LoginViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
+
+        [Display(Name = "Remember me")]
+        public bool RememberMe { get; set; }
+
+        public string? ReturnUrl { get; set; }
+    }
+}
+```
+
+---
+
+## 24.2 Login and logout actions
+
+Add to **`Controllers/AccountController.cs`** (same DI as Chapter 23):
+
+```csharp
+[HttpGet]
+[AllowAnonymous]
+public IActionResult Login(string? returnUrl = null)
+{
+    return View(new LoginViewModel { ReturnUrl = returnUrl });
+}
+
+[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Login(LoginViewModel model)
+{
+    if (!ModelState.IsValid)
+        return View(model);
+
+    var result = await _signInManager.PasswordSignInAsync(
+        model.Email,
+        model.Password,
+        isPersistent: model.RememberMe,
+        lockoutOnFailure: false);
+
+    if (result.Succeeded)
+    {
+        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+            return Redirect(model.ReturnUrl);
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+    return View(model);
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Logout()
+{
+    await _signInManager.SignOutAsync();
+    return RedirectToAction("Index", "Home");
+}
+
+[HttpGet]
+[AllowAnonymous]
+public IActionResult AccessDenied()
+{
+    return View();
+}
+```
+
+### API meanings
+
+| Call | Meaning |
+|------|---------|
+| `PasswordSignInAsync` | Verify password hash; issue auth cookie on success |
+| `isPersistent: true` | Longer-lived auth cookie (“Remember me”) |
+| `SignOutAsync` | Remove auth cookie / sign-out |
+| `Url.IsLocalUrl` | Prevent open-redirect attacks on `returnUrl` |
+
+Again: action is `async Task<IActionResult>` and uses `await`.
+
+---
+
+## 24.3 Login view
+
+**`Views/Account/Login.cshtml`**
+
+```cshtml
+@model WebShop.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Login" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+</form>
+```
+
+**Logout button** (e.g. in `_Layout.cshtml` when signed in):
+
+```cshtml
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-link nav-link">Logout (@User.Identity?.Name)</button>
+    </form>
+}
+else
+{
+    <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+    <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+}
+```
+
+---
+
+## 24.4 Successful vs unsuccessful login flow
+
+**Success**
+
+```
+POST Login → ModelState OK → PasswordSignInAsync succeeds
+  → auth cookie in Response → Redirect Home/returnUrl
+Next GET → UseAuthentication reads cookie → User.Identity.IsAuthenticated == true
+```
+
+**Failure**
+
+```
+Wrong password → result.Succeeded false
+  → ModelState error → return View(model)
+  → no auth cookie issued
+```
+
+**Logout**
+
+```
+POST Logout + antiforgery → SignOutAsync → cookie cleared → Home as anonymous
+```
+
+---
+
+## 24.5 Why password is not in the auth cookie
+
+Identity stores a **password hash** in the database. At login it verifies the typed password against the hash, then issues a **protected authentication ticket**. Stealing the cookie is still bad (session hijack) — use HTTPS (`Secure` cookies) in production — but the raw password is not sitting in the cookie string.
+
+\newpage
+
+# Chapter 25: Role-Based Authorization
+
+## 25.1 What a role is
+
+**Definition:** A **role** is a named group of permissions, e.g. `Admin`, `Customer`, `Manager`. Users can belong to one or more roles. Authorization attributes check those roles.
+
+**Authentication vs role authorization:**
+
+- Logged in = authenticated (we know who you are).  
+- `[Authorize(Roles = "Admin")]` = must be authenticated **and** in Admin role.
+
+If logged in but wrong role → **Access Denied** (not the login page), configured via `AccessDeniedPath`.
+
+---
+
+## 25.2 Create roles and assign users
+
+**Example seeder** — call once at startup or from an Admin-only action.
+
+**`Data/IdentitySeeder.cs`**
+
+```csharp
+using Microsoft.AspNetCore.Identity;
+
+namespace WebShop.Data
+{
+    public static class IdentitySeeder
+    {
+        public static async Task SeedAsync(IServiceProvider services)
+        {
+            using var scope = services.CreateScope();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            string[] roles = { "Admin", "Customer", "Manager" };
+
+            foreach (string roleName in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    IdentityResult createRole = await roleManager.CreateAsync(new IdentityRole(roleName));
+                    // In production, check createRole.Succeeded and log errors
+                }
+            }
+
+            // Demo admin — change email/password; never ship default passwords
+            string adminEmail = "admin@example.com";
+            IdentityUser? admin = await userManager.FindByEmailAsync(adminEmail);
+            if (admin == null)
+            {
+                admin = new IdentityUser { UserName = adminEmail, Email = adminEmail };
+                IdentityResult createUser = await userManager.CreateAsync(admin, "Admin@12345");
+                if (createUser.Succeeded)
+                {
+                    IdentityResult addRole = await userManager.AddToRoleAsync(admin, "Admin");
+                    // Check addRole.Succeeded
+                }
+            }
+        }
+    }
+}
+```
+
+Call after `var app = builder.Build();`:
+
+```csharp
+await IdentitySeeder.SeedAsync(app.Services);
+```
+
+**Prevent duplicate roles:** always `RoleExistsAsync` before `CreateAsync`.
+
+**Public registration:** after `CreateAsync`, you may `AddToRoleAsync(user, "Customer")` only — **never** allow a form field `Role=Admin` from the client.
+
+---
+
+## 25.3 Protect controllers and actions
+
+```csharp
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebShop.Controllers
+{
+    public class AdminController : Controller
+    {
+        // Any authenticated user
+        [Authorize]
+        public IActionResult Profile() => View();
+
+        // Only Admin
+        [Authorize(Roles = "Admin")]
+        public IActionResult Dashboard() => View();
+
+        // Admin OR Manager (comma = either role, NOT both required)
+        [Authorize(Roles = "Admin,Manager")]
+        public IActionResult Reports() => View();
+    }
+
+    public class StoreController : Controller
+    {
+        [Authorize(Roles = "Customer")]
+        public IActionResult MyCart() => RedirectToAction("Index", "Cart");
+    }
+}
+```
+
+**Comma meaning:** `Roles = "Admin,Manager"` means user needs **Admin OR Manager**.
+
+For complex rules (Admin AND claim X), prefer **authorization policies** over stacking raw roles.
+
+---
+
+## 25.4 Access denied behaviour
+
+In Chapter 22:
+
+```csharp
+options.AccessDeniedPath = "/Account/AccessDenied";
+```
+
+**`Views/Account/AccessDenied.cshtml`**
+
+```cshtml
+@{
+    ViewData["Title"] = "Access denied";
+}
+<h2>Access denied</h2>
+<p>You are signed in but not allowed to view this page.</p>
+```
+
+| Situation | Typical result |
+|-----------|----------------|
+| Anonymous hits `[Authorize]` | Redirect to Login |
+| Customer hits `[Authorize(Roles="Admin")]` | Access Denied |
+
+---
+
+## 25.5 Checking results of role operations
+
+```csharp
+IdentityResult result = await _userManager.AddToRoleAsync(user, "Customer");
+if (!result.Succeeded)
+{
+    foreach (var e in result.Errors)
+        ModelState.AddModelError("", e.Description);
+}
+```
+
+Same pattern for `CreateAsync` on roles.
+
+---
+
+## 25.6 Policies (brief, real apps)
+
+```csharp
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("MustBeManager", policy =>
+        policy.RequireRole("Manager", "Admin"));
+});
+
+// [Authorize(Policy = "MustBeManager")]
+```
+
+Use when roles alone become messy.
+
+---
+
+## 25.7 Exam practice
+
+1. Difference authentication vs authorization.  
+2. Write attribute allowing Admin or Manager.  
+3. Why registration must not accept arbitrary role from the form.  
+4. What middleware order is required?
+
+\newpage
+
+# Chapter 26: Integrated Revision — State, Session, Cart, Identity
+
+## 26.1 Big comparison table
+
+| Topic | Core idea | Typical storage |
+|-------|-----------|-----------------|
+| HTTP statelessness | Each request independent | N/A (protocol) |
+| Cookie | Browser stores name/value | Client |
+| Cookie + JSON | Object ↔ string in cookie | Client (small, non-secret) |
+| Session | Server dictionary + id cookie | Server data + client id |
+| Serialization | Object ↔ JSON string | N/A (technique) |
+| Authentication | Who are you? | Auth cookie + user DB |
+| Authorization | What can you access? | Roles/policies checked each request |
+| Identity | Membership framework | EF Identity tables + auth cookie |
+
+---
+
+## 26.2 Cookie request-flow diagram
+
+```
+Browser                     Server
+   |                          |
+   | GET /CookieDemo/SetName  |
+   |------------------------->|
+   |   Set-Cookie: UserName   |
+   |<-------------------------|
+   | (stores cookie)          |
+   |                          |
+   | GET /CookieDemo/ReadName |
+   | Cookie: UserName=Ali     |
+   |------------------------->|
+   |   "Hello, Ali" HTML/text |
+   |<-------------------------|
+```
+
+---
+
+## 26.3 Shopping-cart request-flow diagram
+
+```
+POST /Cart/Add (productId=1) + SessionId cookie
+        |
+        v
+CartController.Add
+  load List<CartItem> from Session (JSON)
+  lookup Product price on server
+  qty++ or insert new item
+  save List to Session
+        |
+        v
+302 → GET /Cart/Index
+  read Session cart → table + total
+```
+
+---
+
+## 26.4 Login + role authorization flow
+
+```
+POST /Account/Login
+  PasswordSignInAsync
+     | fail → show errors
+     | ok  → auth cookie
+           → Redirect
+GET /Admin/Dashboard  [Authorize(Roles="Admin")]
+  UseAuthentication → User principal
+  UseAuthorization → role check
+     | has Admin → View
+     | else → AccessDenied
+```
+
+---
+
+## 26.5 Essential APIs (Part II cheat sheet)
+
+```csharp
+// Cookies
+Response.Cookies.Append("k", "v", new CookieOptions { ... });
+Request.Cookies["k"];
+Response.Cookies.Delete("k");
+
+// JSON
+JsonSerializer.Serialize(obj);
+JsonSerializer.Deserialize<T>(json);
+
+// Session setup
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(...);
+app.UseSession();
+HttpContext.Session.SetString / GetString / SetInt32 / GetInt32
+
+// Identity
+await _userManager.CreateAsync(user, password);
+await _signInManager.PasswordSignInAsync(...);
+await _signInManager.SignOutAsync();
+await _roleManager.RoleExistsAsync / CreateAsync
+await _userManager.AddToRoleAsync(user, "Customer");
+
+// AuthZ
+[Authorize]
+[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin,Manager")] // OR
+
+app.UseAuthentication();
+app.UseAuthorization();
+```
+
+Async: `public async Task<IActionResult> ...` + `await` — no `.Result`.
+
+---
+
+## 26.6 Common mistakes and fixes
+
+| Mistake | Fix |
+|---------|-----|
+| Trust cookie price | Price from server/DB only |
+| Session without `UseSession` | Add services + middleware |
+| `static` cart for all users | Per-user session/DB |
+| Password in cookie/plain DB column | `CreateAsync` / Identity hash |
+| `UseAuthorization` before `UseAuthentication` | Swap order |
+| Blind `Redirect(returnUrl)` | `Url.IsLocalUrl` |
+| Roles from open registration form | Assign `Customer` only in code |
+| Think HttpOnly = encryption | It only blocks JS access |
+| Think serialize = encrypt | JSON is readable text |
+| `.Result` on Identity calls | Use `await` |
+
+---
+
+## 26.7 Likely theory questions
+
+1. Why is HTTP called stateful or stateless? (Answer: **stateless**.)  
+2. Request vs Response cookies.  
+3. Cookie vs session.  
+4. Authentication vs authorization.  
+5. What does Identity store instead of plain passwords?  
+6. Meaning of `Roles = "Admin,Manager"`.
+
+---
+
+## 26.8 Likely paper coding questions
+
+1. Write code to append an HttpOnly cookie for 7 days.  
+2. Serialize a `Customer` to cookie and read it back.  
+3. Configure session in `Program.cs`.  
+4. Write `CartController.Add` with quantity increment.  
+5. Write `Register` POST with `CreateAsync`.  
+6. Write `Login` POST with `PasswordSignInAsync` and safe `returnUrl`.  
+7. Protect an action for Admin only.
+
+---
+
+## 26.9 Short-answer drill
+
+1. Where is session **data** stored?  
+2. Name three `CookieOptions` properties.  
+3. Which middleware establishes `User`?  
+4. Idle timeout means what?
+
+**Answers:** 1) Server (id in browser). 2) Expires, HttpOnly, Secure, SameSite, Path… 3) Authentication. 4) Session expires after idle period.
+
+---
+
+## 26.10 Dry-run exercises
+
+**A.** Cookie `Theme=dark` set; user opens new tab same site — is Theme sent? → **Yes** (matching cookie).  
+
+**B.** In-memory session; restart app; open cart — cart? → **Empty** (session store cleared).  
+
+**C.** User in role Customer opens `[Authorize(Roles="Admin")]` while logged in → **Access Denied**.  
+
+**D.** Add Mouse twice — quantities? → **2** (Chapter 20 dry run).
+
+---
+
+## 26.11 Mock exam (Part II)
+
+### MCQs
+
+1. HTTP is: (a) stateful by default (b) stateless (c) encrypted always (d) a database  
+2. `Request.Cookies` reads values from: (a) response only (b) current incoming request (c) SQL (d) ViewBag  
+3. Best teaching place for cart list: (a) huge cookie (b) session/DB (c) ViewBag forever (d) CSS  
+4. `CreateAsync(user, password)` stores: (a) plain password (b) hash (c) cookie only (d) nothing  
+5. Middleware order: (a) Authorization then Authentication (b) Authentication then Authorization  
+
+### Short
+
+6. Define serialization.  
+7. Why validate `returnUrl`?  
+8. Difference TempData vs Session.
+
+### Coding
+
+9. Session SetString/GetString for `"City"="Lahore"`.  
+10. `[Authorize(Roles = "Admin,Manager")]` on `Reports`.  
+11. Delete cookie `"UserName"`.
+
+### Integration
+
+12. Trace Add-to-Cart for Keyboard then Remove.  
+13. Trace failed login then successful login.
+
+### Answer key (Part II mock)
+
+1. b  2. b  3. b  4. b  5. b  
+6. Object → string (often JSON).  
+7. Prevent open redirect to evil external sites.  
+8. TempData short-lived across one redirect; Session lasts until timeout/clear for that session id.  
+9–11. See Chapters 17–19, 25.  
+12. Session gains Keyboard qty 1; Remove deletes item; Index shows empty/info.  
+13. Fail: no cookie, errors shown; Success: auth cookie, redirect, `User` authenticated.
+
+---
+
+## 26.12 Final Part II checklist
+
+I can explain and write from memory:
+
+- [ ] Why HTTP is stateless (without claiming the browser remembers nothing)  
+- [ ] Cookie lifecycle; Request vs Response APIs  
+- [ ] `CookieOptions` (Expires, HttpOnly, Secure, SameSite)  
+- [ ] JSON serialize/deserialize for cookies/session  
+- [ ] Session setup + Set/Get String/Int32  
+- [ ] Full Add-to-Cart with quantity++ and Remove  
+- [ ] Authentication vs authorization vs Identity  
+- [ ] `Program.cs` Identity + Auth middleware order  
+- [ ] Register / Login / Logout with `async`/`await`  
+- [ ] Role create/assign and `[Authorize(Roles=...)]`  
+- [ ] Safe `returnUrl`, antiforgery, no plain-text passwords  
+
+---
+
+## Document completeness (after update)
+
+| Part | Chapters | Status |
+|------|----------|--------|
+| Part I | 1–15 | Preserved |
+| Part II | 16 State | Added |
+| | 17 Cookies | Added |
+| | 18 Cookie serialization | Added |
+| | 19 Session | Added |
+| | 20 Add-to-Cart | Added |
+| | 21 Identity concepts | Added |
+| | 22 Configure Identity | Added |
+| | 23 Signup | Added |
+| | 24 Login/Logout | Added |
+| | 25 Roles | Added |
+| | 26 Part II revision | Added |
+
+\newpage
+
 # End of Handbook
 
-Practice writing code on paper. Re-do Lab 02 CRUD and HW 4 views without looking. Good luck — Professor Shuja’s Web Technologies (SEF24).
+You now have **one** complete Web Technologies exam guide: Part I (MVC, ADO.NET, async, Bootstrap, layouts) plus Part II (state, cookies, session, cart, Identity). Practise writing the critical actions on paper. Good luck — Professor Shuja’s Web Technologies (SEF24).
